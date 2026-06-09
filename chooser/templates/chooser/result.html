@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result - Choice Circle</title>
+    <style>
+        body { background: radial-gradient(circle at top, #22d3ee, #0f172a 45%); color: #f8fafc; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .hero { max-width: 820px; margin: 0 auto; padding: 40px 24px; text-align: center; }
+        .card { background: rgba(15, 23, 42, 0.95); border-radius: 26px; padding: 42px 32px; box-shadow: 0 24px 60px rgba(0,0,0,0.35); }
+        h1 { margin: 0 0 16px; font-size: 2.8rem; color: #fbbf24; }
+        .big-name { margin: 24px 0; font-size: 4rem; line-height: 1.1; color: #f472b6; text-transform: uppercase; letter-spacing: 0.1em; animation: glow 1.6s ease-in-out infinite alternate; }
+        .heart { display: inline-block; font-size: 3.2rem; margin: 0 10px; animation: beat 1s infinite alternate; }
+        .message { font-size: 1.2rem; color: #cbd5e1; margin: 18px 0 0; }
+        .button { margin-top: 28px; background: #f59e0b; border: none; border-radius: 14px; padding: 14px 24px; font-size: 1rem; color: #111827; cursor: pointer; transition: transform .2s ease; }
+        .button:hover { background: #ea580c; transform: translateY(-2px); }
+        .result-badge { margin: 22px auto 0; display: inline-flex; align-items: center; gap: 12px; padding: 12px 20px; border-radius: 999px; background: rgba(255,255,255,.08); color: #e2e8f0; }
+        .buttons-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+        .flash { margin: 0 auto 16px; max-width: 620px; border-radius: 12px; padding: 12px 14px; background: rgba(220, 38, 38, .12); color: #fecaca; }
+        .flash.success { background: rgba(34,197,94,.14); color: #d1fae5; }
+        .flash.info { background: rgba(59,130,246,.14); color: #bfdbfe; }
+        @keyframes beat { to { transform: scale(1.15); } }
+        @keyframes glow { from { text-shadow: 0 0 10px rgba(244,114,182,.5); } to { text-shadow: 0 0 28px rgba(244,114,182,1); } }
+    </style>
+</head>
+<body>
+<div class="hero">
+    <div class="card">
+        {% if failed %}
+            <h1>Spin Failed</h1>
+            <p class="message">The current choice state cannot complete a valid assignment. Use the reset button in admin if the circle is stuck.</p>
+            <p><a class="button" href="{% url 'admin_dashboard' %}">Go to Admin Dashboard</a></p>
+        {% else %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            <h1>{{ participant.name }}, your selected name is</h1>
+            <div class="big-name">{{ target.name }}</div>
+            <div class="result-badge">✨ Selected by {{ participant.name }} ✨</div>
+            <div style="margin-top: 18px;">
+                <span class="heart">❤️</span>
+                <span class="heart">❤️</span>
+                <span class="heart">❤️</span>
+            </div>
+            <p class="message">Congratulations! This choice is a special reward moment in the circle.</p>
+            <p class="message">Remember: everyone can choose once, and every person can only be selected by one other person.</p>
+            <div class="buttons-row">
+                <a class="button" href="{% url 'home' %}">Back to Home</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Choice Circle - Spin Your Match</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #111827; color: #f8fafc; margin: 0; padding: 0; }
+        .page { max-width: 780px; margin: 0 auto; padding: 32px; }
+        .card { background: #1f2937; padding: 28px; border-radius: 18px; box-shadow: 0 20px 40px rgba(0,0,0,.35); }
+        h1 { margin-top: 0; font-size: 2.5rem; color: #fbbf24; }
+        .summary { margin-bottom: 24px; color: #cbd5e1; }
+        .form-input { width: 100%; padding: 12px 14px; font-size: 1rem; border-radius: 10px; border: 1px solid #334155; background: #111827; color: #f8fafc; margin-top: 10px; margin-bottom: 10px; }
+        .error { margin-top: 10px; color: #fca5a5; background: rgba(248,113,113,0.12); padding: 10px 12px; border-radius: 10px; }
+        .button { margin-top: 18px; padding: 14px 20px; display: inline-block; background: #f59e0b; color: #111827; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; }
+        .button:hover { background: #d97706; }
+        .meta { margin-top: 28px; color: #94a3b8; }
+        .link { color: #38bdf8; text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="page">
+    <div class="card">
+        <h1>Choice Circle Spin</h1>
+        <p class="summary">Every participant may make one choice. No one can select themselves. A person can only be chosen by one other person.</p>
+        <p class="summary">Selected: <strong>{{ chosen_count }}</strong> / <strong>{{ total_count }}</strong></p>
+
+        <form method="post">
+            {% csrf_token %}
+            <label for="id_username">Enter your username</label>
+            {{ form.username }}
+            {% if form.username.errors %}
+                <div class="error">{{ form.username.errors.as_text|escape }}</div>
+            {% endif %}
+            <button type="submit" class="button">Start the Spin</button>
+        </form>
+
+        <div class="meta">
+            <p>Admin dashboard: <a class="link" href="{% url 'admin_dashboard' %}">Control choices & reset</a></p>
+            <p>Django admin: <a class="link" href="/admin/">/admin/</a></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
